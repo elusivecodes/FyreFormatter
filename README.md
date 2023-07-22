@@ -1,6 +1,6 @@
 # FyreFormatter
 
-**FyreFormatter** is a free, formatting library for *PHP*.
+**FyreFormatter** is a free, open-source formatting library for *PHP*.
 
 
 ## Table Of Contents

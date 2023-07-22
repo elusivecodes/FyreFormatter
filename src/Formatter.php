@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace Fyre\Formatter;
 
-use
-    Fyre\DateTime\DateTime,
-    Fyre\DateTime\DateTimeInterface,
-    Fyre\DB\TypeParser,
-    Locale,
-    NumberFormatter;
+use Fyre\DateTime\DateTime;
+use Fyre\DB\TypeParser;
+use Locale;
+use NumberFormatter;
 /**
  * Formatter
  */
@@ -40,35 +38,38 @@ abstract class Formatter
 
     /**
      * Format a DateTime as a date string.
-     * @param DateTimeInterface The DateTime.
+     * @param DateTime The DateTime.
      * @param array $options The formatting options.
      * @return string The date string.
      */
-    public static function date(DateTimeInterface $value, array $options = []): string
+    public static function date(DateTime $value, array $options = []): string
     {
-        $options['format'] ??= TypeParser::getType('date')->getLocaleFormat();
-        $options['format'] ??= 'dd/MM/yyyy';
+        $options['format'] ??= TypeParser::use('date')->getLocaleFormat() ?? 'dd/MM/yyyy';
 
         return static::datetime($value, $options);
     }
 
     /**
      * Format a DateTime as a date/time string.
-     * @param DateTimeInterface The DateTime.
+     * @param DateTime The DateTime.
      * @param array $options The formatting options.
      * @return string The date/time string.
      */
-    public static function datetime(DateTimeInterface $value, array $options = []): string
+    public static function datetime(DateTime $value, array $options = []): string
     {
         $options['locale'] ??= static::getDefaultLocale();
         $options['timeZone'] ??= static::getDefaultTimeZone();
-        $options['format'] ??= TypeParser::getType('datetime')->getLocaleFormat();
-        $options['format'] ??= 'dd/MM/yyyy hh:mm a';
+        $options['format'] ??= TypeParser::use('datetime')->getLocaleFormat() ?? 'dd/MM/yyyy hh:mm a';
 
-        return $value->clone()
-            ->setLocale($options['locale'])
-            ->setTimeZone($options['timeZone'])
-            ->format($options['format']);
+        if ($value->getLocale() !== $options['locale']) {
+            $value = $value->setLocale($options['locale']);
+        }
+
+        if ($value->getTimeZone() !== $options['timeZone']) {
+            $value = $value->setTimeZone($options['timeZone']);
+        }
+
+        return $value->format($options['format']);
     }
 
     /**
@@ -86,7 +87,7 @@ abstract class Formatter
      */
     public static function getDefaultLocale(): string
     {
-        return static::$defaultLocale ??= Locale::getDefault();
+        return static::$defaultLocale ?? Locale::getDefault();
     }
 
     /**
@@ -95,7 +96,7 @@ abstract class Formatter
      */
     public static function getDefaultTimeZone(): string
     {
-        return static::$defaultTimeZone ??= DateTime::now()->getTimeZone();
+        return static::$defaultTimeZone ?? DateTime::getDefaultTimeZone();
     }
 
     /**
@@ -141,7 +142,6 @@ abstract class Formatter
      */
     public static function setDefaultLocale(string $locale): void
     {
-        Locale::setDefault($locale);
         static::$defaultLocale = $locale;
     }
 
@@ -156,14 +156,13 @@ abstract class Formatter
 
     /**
      * Format a DateTime as a time string.
-     * @param DateTimeInterface The DateTime.
+     * @param DateTime The DateTime.
      * @param array $options The formatting options.
      * @return string The time string.
      */
-    public static function time(DateTimeInterface $value, array $options = []): string
+    public static function time(DateTime $value, array $options = []): string
     {
-        $options['format'] ??= TypeParser::getType('time')->getLocaleFormat();
-        $options['format'] ??= 'hh:mm a';
+        $options['format'] ??= TypeParser::use('time')->getLocaleFormat() ?? 'hh:mm a';
 
         return static::datetime($value, $options);
     }
