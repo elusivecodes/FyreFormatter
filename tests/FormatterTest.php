@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use Fyre\DateTime\DateTime;
-use Fyre\Formatter\Formatter;
+use Fyre\Utility\Formatter;
 use PHPUnit\Framework\TestCase;
 
 final class FormatterTest extends TestCase

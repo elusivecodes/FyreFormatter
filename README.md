@@ -20,7 +20,7 @@ composer require fyre/formatter
 In PHP:
 
 ```php
-use Fyre\Formatter\Formatter;
+use Fyre\Utility\Formatter;
 ```
 
 
