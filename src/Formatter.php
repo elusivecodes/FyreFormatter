@@ -5,8 +5,10 @@ namespace Fyre\Utility;
 
 use Fyre\DateTime\DateTime;
 use Fyre\DB\TypeParser;
-use Locale;
 use NumberFormatter;
+
+use function locale_get_default;
+
 /**
  * Formatter
  */
@@ -87,7 +89,7 @@ abstract class Formatter
      */
     public static function getDefaultLocale(): string
     {
-        return static::$defaultLocale ?? Locale::getDefault();
+        return static::$defaultLocale ?? locale_get_default();
     }
 
     /**
