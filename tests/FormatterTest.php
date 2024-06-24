@@ -9,6 +9,12 @@ use PHPUnit\Framework\TestCase;
 
 final class FormatterTest extends TestCase
 {
+    public function setUp(): void
+    {
+        Formatter::setDefaultCurrency('usd');
+        Formatter::setDefaultLocale('en-US');
+        Formatter::setDefaultTimeZone('UTC');
+    }
 
     public function testCurrency(): void
     {
@@ -26,14 +32,6 @@ final class FormatterTest extends TestCase
         );
     }
 
-    public function testCurrencyString(): void
-    {
-        $this->assertSame(
-            '$123.46',
-            Formatter::currency('123.456')
-        );
-    }
-
     public function testCurrencyOptions(): void
     {
         $this->assertSame(
@@ -42,6 +40,14 @@ final class FormatterTest extends TestCase
                 'locale' => 'en-GB',
                 'currency' => 'gbp'
             ])
+        );
+    }
+
+    public function testCurrencyString(): void
+    {
+        $this->assertSame(
+            '$123.46',
+            Formatter::currency('123.456')
         );
     }
 
@@ -163,12 +169,4 @@ final class FormatterTest extends TestCase
             ])
         );
     }
-
-    public function setUp(): void
-    {
-        Formatter::setDefaultCurrency('usd');
-        Formatter::setDefaultLocale('en-US');
-        Formatter::setDefaultTimeZone('UTC');
-    }
-
 }

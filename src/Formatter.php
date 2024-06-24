@@ -14,22 +14,18 @@ use function locale_get_default;
  */
 abstract class Formatter
 {
-
-    protected static string|null $defaultLocale = null;
-
-    protected static string|null $defaultTimeZone = null;
-
     protected static string $defaultCurrency = 'USD';
-
+    protected static string|null $defaultLocale = null;
+    protected static string|null $defaultTimeZone = null;
     protected static array $numberFormatters = [];
 
     /**
      * Format a value as a currency string.
-     * @param string|int|float The value.
      * @param array $options The formatting options.
+     * @param string|int|float The value.
      * @return string The currency string.
      */
-    public static function currency(string|int|float $value, array $options = []): string
+    public static function currency(float|int|string $value, array $options = []): string
     {
         $options['locale'] ??= static::getDefaultLocale();
         $options['currency'] ??= static::getDefaultCurrency();
@@ -40,8 +36,8 @@ abstract class Formatter
 
     /**
      * Format a DateTime as a date string.
-     * @param DateTime The DateTime.
      * @param array $options The formatting options.
+     * @param DateTime The DateTime.
      * @return string The date string.
      */
     public static function date(DateTime $value, array $options = []): string
@@ -53,8 +49,8 @@ abstract class Formatter
 
     /**
      * Format a DateTime as a date/time string.
-     * @param DateTime The DateTime.
      * @param array $options The formatting options.
+     * @param DateTime The DateTime.
      * @return string The date/time string.
      */
     public static function datetime(DateTime $value, array $options = []): string
@@ -103,11 +99,11 @@ abstract class Formatter
 
     /**
      * Format a value as a number string.
-     * @param string|int|float The value.
      * @param array $options The formatting options.
+     * @param string|int|float The value.
      * @return string The number string.
      */
-    public static function number(string|int|float $value, array $options = []): string
+    public static function number(float|int|string $value, array $options = []): string
     {
         $options['locale'] ??= static::getDefaultLocale();
 
@@ -117,11 +113,11 @@ abstract class Formatter
 
     /**
      * Format a value as a percent string.
-     * @param string|int|float The value.
      * @param array $options The formatting options.
+     * @param string|int|float The value.
      * @return string The percent string.
      */
-    public static function percent(string|int|float $value, array $options = []): string
+    public static function percent(float|int|string $value, array $options = []): string
     {
         $options['locale'] ??= static::getDefaultLocale();
 
@@ -158,8 +154,8 @@ abstract class Formatter
 
     /**
      * Format a DateTime as a time string.
-     * @param DateTime The DateTime.
      * @param array $options The formatting options.
+     * @param DateTime The DateTime.
      * @return string The time string.
      */
     public static function time(DateTime $value, array $options = []): string
@@ -179,5 +175,4 @@ abstract class Formatter
         static::$numberFormatters[$locale] ??= [];
         return static::$numberFormatters[$locale][$type] ??= new NumberFormatter($locale, $type);
     }
-
 }
