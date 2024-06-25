@@ -9,13 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 final class FormatterTest extends TestCase
 {
-    public function setUp(): void
-    {
-        Formatter::setDefaultCurrency('usd');
-        Formatter::setDefaultLocale('en-US');
-        Formatter::setDefaultTimeZone('UTC');
-    }
-
     public function testCurrency(): void
     {
         $this->assertSame(
@@ -38,7 +31,7 @@ final class FormatterTest extends TestCase
             '£123.00',
             Formatter::currency(123, [
                 'locale' => 'en-GB',
-                'currency' => 'gbp'
+                'currency' => 'gbp',
             ])
         );
     }
@@ -69,7 +62,7 @@ final class FormatterTest extends TestCase
             '٢٠٢٢-٠١-٠١',
             Formatter::date($date, [
                 'locale' => 'ar-AR',
-                'format' => 'yyyy-MM-dd'
+                'format' => 'yyyy-MM-dd',
             ])
         );
     }
@@ -93,7 +86,7 @@ final class FormatterTest extends TestCase
             Formatter::datetime($date, [
                 'locale' => 'ar-AR',
                 'timeZone' => 'America/New_York',
-                'format' => 'yyyy-MM-dd HH:mm:ss'
+                'format' => 'yyyy-MM-dd HH:mm:ss',
             ])
         );
     }
@@ -165,8 +158,15 @@ final class FormatterTest extends TestCase
             Formatter::time($date, [
                 'locale' => 'ar-AR',
                 'timeZone' => 'America/New_York',
-                'format' => 'HH:mm:ss'
+                'format' => 'HH:mm:ss',
             ])
         );
+    }
+
+    public function setUp(): void
+    {
+        Formatter::setDefaultCurrency('usd');
+        Formatter::setDefaultLocale('en-US');
+        Formatter::setDefaultTimeZone('UTC');
     }
 }

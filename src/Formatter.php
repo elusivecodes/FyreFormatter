@@ -15,12 +15,16 @@ use function locale_get_default;
 abstract class Formatter
 {
     protected static string $defaultCurrency = 'USD';
+
     protected static string|null $defaultLocale = null;
+
     protected static string|null $defaultTimeZone = null;
+
     protected static array $numberFormatters = [];
 
     /**
      * Format a value as a currency string.
+     *
      * @param array $options The formatting options.
      * @param string|int|float The value.
      * @return string The currency string.
@@ -36,6 +40,7 @@ abstract class Formatter
 
     /**
      * Format a DateTime as a date string.
+     *
      * @param array $options The formatting options.
      * @param DateTime The DateTime.
      * @return string The date string.
@@ -49,6 +54,7 @@ abstract class Formatter
 
     /**
      * Format a DateTime as a date/time string.
+     *
      * @param array $options The formatting options.
      * @param DateTime The DateTime.
      * @return string The date/time string.
@@ -72,6 +78,7 @@ abstract class Formatter
 
     /**
      * Get the default currency.
+     *
      * @return string The default currency.
      */
     public static function getDefaultCurrency(): string
@@ -81,6 +88,7 @@ abstract class Formatter
 
     /**
      * Get the default locale.
+     *
      * @return string The default locale.
      */
     public static function getDefaultLocale(): string
@@ -90,6 +98,7 @@ abstract class Formatter
 
     /**
      * Get the default time zone.
+     *
      * @return string The default zone.
      */
     public static function getDefaultTimeZone(): string
@@ -99,6 +108,7 @@ abstract class Formatter
 
     /**
      * Format a value as a number string.
+     *
      * @param array $options The formatting options.
      * @param string|int|float The value.
      * @return string The number string.
@@ -113,6 +123,7 @@ abstract class Formatter
 
     /**
      * Format a value as a percent string.
+     *
      * @param array $options The formatting options.
      * @param string|int|float The value.
      * @return string The percent string.
@@ -127,6 +138,7 @@ abstract class Formatter
 
     /**
      * Set the default currency.
+     *
      * @param string $currency The currency.
      */
     public static function setDefaultCurrency(string $currency): void
@@ -136,6 +148,7 @@ abstract class Formatter
 
     /**
      * Set the default locale.
+     *
      * @param string $locale The locale.
      */
     public static function setDefaultLocale(string $locale): void
@@ -145,6 +158,7 @@ abstract class Formatter
 
     /**
      * Set the default time zone.
+     *
      * @param string $timeZone The time zone.
      */
     public static function setDefaultTimeZone(string $timeZone): void
@@ -154,6 +168,7 @@ abstract class Formatter
 
     /**
      * Format a DateTime as a time string.
+     *
      * @param array $options The formatting options.
      * @param DateTime The DateTime.
      * @return string The time string.
@@ -167,12 +182,14 @@ abstract class Formatter
 
     /**
      * Get a NumberFormatter for a locale.
+     *
      * @param string $locale The locale.
      * @return NumberFormatter The NumberFormatter.
      */
     protected static function getNumberFormatter(string $locale, int $type = NumberFormatter::DEFAULT_STYLE): NumberFormatter
     {
         static::$numberFormatters[$locale] ??= [];
+
         return static::$numberFormatters[$locale][$type] ??= new NumberFormatter($locale, $type);
     }
 }
