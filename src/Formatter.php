@@ -26,7 +26,7 @@ abstract class Formatter
      * Format a value as a currency string.
      *
      * @param array $options The formatting options.
-     * @param string|int|float The value.
+     * @param float|int|string The value.
      * @return string The currency string.
      */
     public static function currency(float|int|string $value, array $options = []): string
@@ -110,7 +110,7 @@ abstract class Formatter
      * Format a value as a number string.
      *
      * @param array $options The formatting options.
-     * @param string|int|float The value.
+     * @param float|int|string The value.
      * @return string The number string.
      */
     public static function number(float|int|string $value, array $options = []): string
@@ -125,7 +125,7 @@ abstract class Formatter
      * Format a value as a percent string.
      *
      * @param array $options The formatting options.
-     * @param string|int|float The value.
+     * @param float|int|string The value.
      * @return string The percent string.
      */
     public static function percent(float|int|string $value, array $options = []): string
