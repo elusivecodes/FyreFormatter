@@ -583,16 +583,16 @@
         },
         {
             "name": "fyre/typeparser",
-            "version": "v3.0.6",
+            "version": "v3.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreTypeParser.git",
-                "reference": "4dbd922bf6b74ce39b3a01f5f403bdb79e2e6946"
+                "reference": "fee9134b31bab0341d39a9f08fdd8a11bad20641"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreTypeParser/zipball/4dbd922bf6b74ce39b3a01f5f403bdb79e2e6946",
-                "reference": "4dbd922bf6b74ce39b3a01f5f403bdb79e2e6946",
+                "url": "https://api.github.com/repos/elusivecodes/FyreTypeParser/zipball/fee9134b31bab0341d39a9f08fdd8a11bad20641",
+                "reference": "fee9134b31bab0341d39a9f08fdd8a11bad20641",
                 "shasum": ""
             },
             "require": {
@@ -622,9 +622,9 @@
             "description": "A database type parser library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreTypeParser/issues",
-                "source": "https://github.com/elusivecodes/FyreTypeParser/tree/v3.0.6"
+                "source": "https://github.com/elusivecodes/FyreTypeParser/tree/v3.0.7"
             },
-            "time": "2024-06-29T06:44:44+00:00"
+            "time": "2024-06-30T01:34:33+00:00"
         },
         {
             "name": "psr/container",
@@ -2896,16 +2896,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "10.1.14",
+            "version": "10.1.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "e3f51450ebffe8e0efdf7346ae966a656f7d5e5b"
+                "reference": "5da8b1728acd1e6ffdf2ff32ffbdfd04307f26ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/e3f51450ebffe8e0efdf7346ae966a656f7d5e5b",
-                "reference": "e3f51450ebffe8e0efdf7346ae966a656f7d5e5b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/5da8b1728acd1e6ffdf2ff32ffbdfd04307f26ae",
+                "reference": "5da8b1728acd1e6ffdf2ff32ffbdfd04307f26ae",
                 "shasum": ""
             },
             "require": {
@@ -2962,7 +2962,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.14"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.15"
             },
             "funding": [
                 {
@@ -2970,7 +2970,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-12T15:33:41+00:00"
+            "time": "2024-06-29T08:25:15+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
