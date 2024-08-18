@@ -163,7 +163,7 @@ final class FormatterTest extends TestCase
         );
     }
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         Formatter::setDefaultCurrency('usd');
         Formatter::setDefaultLocale('en-US');
