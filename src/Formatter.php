@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace Fyre\Utility;
 
+use Closure;
 use Fyre\DateTime\DateTime;
 use Fyre\DB\TypeParser;
 use NumberFormatter;
 
+use function call_user_func;
 use function locale_get_default;
 
 /**
@@ -14,11 +16,11 @@ use function locale_get_default;
  */
 abstract class Formatter
 {
-    protected static string $defaultCurrency = 'USD';
+    protected static Closure|string $defaultCurrency = 'USD';
 
-    protected static string|null $defaultLocale = null;
+    protected static Closure|string|null $defaultLocale = null;
 
-    protected static string|null $defaultTimeZone = null;
+    protected static Closure|string|null $defaultTimeZone = null;
 
     protected static array $numberFormatters = [];
 
@@ -83,6 +85,10 @@ abstract class Formatter
      */
     public static function getDefaultCurrency(): string
     {
+        if (static::$defaultCurrency && static::$defaultCurrency instanceof Closure) {
+            return call_user_func(static::$defaultCurrency);
+        }
+
         return static::$defaultCurrency;
     }
 
@@ -93,6 +99,10 @@ abstract class Formatter
      */
     public static function getDefaultLocale(): string
     {
+        if (static::$defaultLocale && static::$defaultLocale instanceof Closure) {
+            return call_user_func(static::$defaultLocale);
+        }
+
         return static::$defaultLocale ?? locale_get_default();
     }
 
@@ -103,6 +113,10 @@ abstract class Formatter
      */
     public static function getDefaultTimeZone(): string
     {
+        if (static::$defaultTimeZone && static::$defaultTimeZone instanceof Closure) {
+            return call_user_func(static::$defaultTimeZone);
+        }
+
         return static::$defaultTimeZone ?? DateTime::getDefaultTimeZone();
     }
 
@@ -139,9 +153,9 @@ abstract class Formatter
     /**
      * Set the default currency.
      *
-     * @param string $currency The currency.
+     * @param Closure|string|null $currency The currency.
      */
-    public static function setDefaultCurrency(string $currency): void
+    public static function setDefaultCurrency(Closure|string|null $currency): void
     {
         static::$defaultCurrency = $currency;
     }
@@ -149,9 +163,9 @@ abstract class Formatter
     /**
      * Set the default locale.
      *
-     * @param string $locale The locale.
+     * @param Closure|string|null $locale The locale.
      */
-    public static function setDefaultLocale(string $locale): void
+    public static function setDefaultLocale(Closure|string|null $locale): void
     {
         static::$defaultLocale = $locale;
     }
@@ -159,9 +173,9 @@ abstract class Formatter
     /**
      * Set the default time zone.
      *
-     * @param string $timeZone The time zone.
+     * @param Closure|string|null $timeZone The time zone.
      */
-    public static function setDefaultTimeZone(string $timeZone): void
+    public static function setDefaultTimeZone(Closure|string|null $timeZone): void
     {
         static::$defaultTimeZone = $timeZone;
     }

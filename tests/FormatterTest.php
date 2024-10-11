@@ -139,6 +139,45 @@ final class FormatterTest extends TestCase
         );
     }
 
+    public function testSetDefaultCurrencyCallback(): void
+    {
+        Formatter::setDefaultCurrency(fn(): string => 'gbp');
+
+        $this->assertSame(
+            '£123.00',
+            Formatter::currency(123, [
+                'locale' => 'en-GB',
+            ])
+        );
+    }
+
+    public function testSetDefaultLocaleCallback(): void
+    {
+        Formatter::setDefaultLocale(fn(): string => 'en-GB');
+
+        $this->assertSame(
+            '£123.00',
+            Formatter::currency(123, [
+                'currency' => 'gbp',
+            ])
+        );
+    }
+
+    public function testSetDefaultTimeZoneCallback(): void
+    {
+        Formatter::setDefaultTimeZone(fn(): string => 'America/New_York');
+
+        $date = new DateTime('2022-01-01 11:59:59');
+
+        $this->assertSame(
+            '٢٠٢٢-٠١-٠١ ٠٦:٥٩:٥٩',
+            Formatter::datetime($date, [
+                'locale' => 'ar-AR',
+                'format' => 'yyyy-MM-dd HH:mm:ss',
+            ])
+        );
+    }
+
     public function testTime(): void
     {
         $date = new DateTime('2022-01-01 11:59:59');
