@@ -3,26 +3,51 @@ declare(strict_types=1);
 
 namespace Fyre\Utility;
 
-use Closure;
+use Fyre\Config\Config;
 use Fyre\DateTime\DateTime;
 use Fyre\DB\TypeParser;
+use Fyre\DB\Types\DateTimeType;
+use Fyre\DB\Types\DateType;
+use Fyre\DB\Types\TimeType;
 use NumberFormatter;
 
-use function call_user_func;
 use function locale_get_default;
 
 /**
  * Formatter
  */
-abstract class Formatter
+class Formatter
 {
-    protected static Closure|string $defaultCurrency = 'USD';
+    protected DateType $dateParser;
 
-    protected static Closure|string|null $defaultLocale = null;
+    protected DateTimeType $dateTimeParser;
 
-    protected static Closure|string|null $defaultTimeZone = null;
+    protected string $defaultCurrency = 'USD';
 
-    protected static array $numberFormatters = [];
+    protected string|null $defaultLocale = null;
+
+    protected string|null $defaultTimeZone = null;
+
+    protected array $numberFormatters = [];
+
+    protected TimeType $timeParser;
+
+    /**
+     * New Formatter constructor.
+     *
+     * @param TypeParser $typeParser The TypeParser.
+     * @param Config $config The Config.
+     */
+    public function __construct(TypeParser $typeParser, Config $config)
+    {
+        $this->dateParser = $typeParser->use('date');
+        $this->dateTimeParser = $typeParser->use('datetime');
+        $this->timeParser = $typeParser->use('time');
+
+        $this->defaultCurrency = $config->get('App.currency', 'USD');
+        $this->defaultLocale = $config->get('App.locale');
+        $this->defaultTimeZone = $config->get('App.timeZone');
+    }
 
     /**
      * Format a value as a currency string.
@@ -31,12 +56,12 @@ abstract class Formatter
      * @param float|int|string The value.
      * @return string The currency string.
      */
-    public static function currency(float|int|string $value, array $options = []): string
+    public function currency(float|int|string $value, array $options = []): string
     {
-        $options['locale'] ??= static::getDefaultLocale();
-        $options['currency'] ??= static::getDefaultCurrency();
+        $options['locale'] ??= $this->getDefaultLocale();
+        $options['currency'] ??= $this->getDefaultCurrency();
 
-        return static::getNumberFormatter($options['locale'], NumberFormatter::CURRENCY_ACCOUNTING)
+        return $this->getNumberFormatter($options['locale'], NumberFormatter::CURRENCY_ACCOUNTING)
             ->formatCurrency((float) $value, $options['currency']);
     }
 
@@ -47,11 +72,11 @@ abstract class Formatter
      * @param DateTime The DateTime.
      * @return string The date string.
      */
-    public static function date(DateTime $value, array $options = []): string
+    public function date(DateTime $value, array $options = []): string
     {
-        $options['format'] ??= TypeParser::use('date')->getLocaleFormat() ?? 'dd/MM/yyyy';
+        $options['format'] ??= $this->dateParser->getLocaleFormat() ?? 'dd/MM/yyyy';
 
-        return static::datetime($value, $options);
+        return $this->datetime($value, $options);
     }
 
     /**
@@ -61,11 +86,11 @@ abstract class Formatter
      * @param DateTime The DateTime.
      * @return string The date/time string.
      */
-    public static function datetime(DateTime $value, array $options = []): string
+    public function datetime(DateTime $value, array $options = []): string
     {
-        $options['locale'] ??= static::getDefaultLocale();
-        $options['timeZone'] ??= static::getDefaultTimeZone();
-        $options['format'] ??= TypeParser::use('datetime')->getLocaleFormat() ?? 'dd/MM/yyyy hh:mm a';
+        $options['locale'] ??= $this->getDefaultLocale();
+        $options['timeZone'] ??= $this->dateTimeParser->getUserTimeZone() ?? $this->getDefaultTimeZone();
+        $options['format'] ??= $this->dateTimeParser->getLocaleFormat() ?? 'dd/MM/yyyy hh:mm a';
 
         if ($value->getLocale() !== $options['locale']) {
             $value = $value->setLocale($options['locale']);
@@ -83,13 +108,9 @@ abstract class Formatter
      *
      * @return string The default currency.
      */
-    public static function getDefaultCurrency(): string
+    public function getDefaultCurrency(): string
     {
-        if (static::$defaultCurrency && static::$defaultCurrency instanceof Closure) {
-            return call_user_func(static::$defaultCurrency);
-        }
-
-        return static::$defaultCurrency;
+        return $this->defaultCurrency;
     }
 
     /**
@@ -97,13 +118,9 @@ abstract class Formatter
      *
      * @return string The default locale.
      */
-    public static function getDefaultLocale(): string
+    public function getDefaultLocale(): string
     {
-        if (static::$defaultLocale && static::$defaultLocale instanceof Closure) {
-            return call_user_func(static::$defaultLocale);
-        }
-
-        return static::$defaultLocale ?? locale_get_default();
+        return $this->defaultLocale ?? locale_get_default();
     }
 
     /**
@@ -111,13 +128,9 @@ abstract class Formatter
      *
      * @return string The default zone.
      */
-    public static function getDefaultTimeZone(): string
+    public function getDefaultTimeZone(): string
     {
-        if (static::$defaultTimeZone && static::$defaultTimeZone instanceof Closure) {
-            return call_user_func(static::$defaultTimeZone);
-        }
-
-        return static::$defaultTimeZone ?? DateTime::getDefaultTimeZone();
+        return $this->defaultTimeZone ?? DateTime::getDefaultTimeZone();
     }
 
     /**
@@ -127,11 +140,11 @@ abstract class Formatter
      * @param float|int|string The value.
      * @return string The number string.
      */
-    public static function number(float|int|string $value, array $options = []): string
+    public function number(float|int|string $value, array $options = []): string
     {
-        $options['locale'] ??= static::getDefaultLocale();
+        $options['locale'] ??= $this->getDefaultLocale();
 
-        return static::getNumberFormatter($options['locale'])
+        return $this->getNumberFormatter($options['locale'])
             ->format((float) $value);
     }
 
@@ -142,42 +155,51 @@ abstract class Formatter
      * @param float|int|string The value.
      * @return string The percent string.
      */
-    public static function percent(float|int|string $value, array $options = []): string
+    public function percent(float|int|string $value, array $options = []): string
     {
-        $options['locale'] ??= static::getDefaultLocale();
+        $options['locale'] ??= $this->getDefaultLocale();
 
-        return static::getNumberFormatter($options['locale'], NumberFormatter::PERCENT)
+        return $this->getNumberFormatter($options['locale'], NumberFormatter::PERCENT)
             ->format((float) $value);
     }
 
     /**
      * Set the default currency.
      *
-     * @param Closure|string|null $currency The currency.
+     * @param string $currency The currency.
+     * @return Formatter The Formatter.
      */
-    public static function setDefaultCurrency(Closure|string|null $currency): void
+    public function setDefaultCurrency(string $currency): static
     {
-        static::$defaultCurrency = $currency;
+        $this->defaultCurrency = $currency;
+
+        return $this;
     }
 
     /**
      * Set the default locale.
      *
-     * @param Closure|string|null $locale The locale.
+     * @param string|null $locale The locale.
+     * @return Formatter The Formatter.
      */
-    public static function setDefaultLocale(Closure|string|null $locale): void
+    public function setDefaultLocale(string|null $locale): static
     {
-        static::$defaultLocale = $locale;
+        $this->defaultLocale = $locale;
+
+        return $this;
     }
 
     /**
      * Set the default time zone.
      *
-     * @param Closure|string|null $timeZone The time zone.
+     * @param string|null $timeZone The time zone.
+     * @return Formatter The Formatter.
      */
-    public static function setDefaultTimeZone(Closure|string|null $timeZone): void
+    public function setDefaultTimeZone(string|null $timeZone): static
     {
-        static::$defaultTimeZone = $timeZone;
+        $this->defaultTimeZone = $timeZone;
+
+        return $this;
     }
 
     /**
@@ -187,11 +209,11 @@ abstract class Formatter
      * @param DateTime The DateTime.
      * @return string The time string.
      */
-    public static function time(DateTime $value, array $options = []): string
+    public function time(DateTime $value, array $options = []): string
     {
-        $options['format'] ??= TypeParser::use('time')->getLocaleFormat() ?? 'hh:mm a';
+        $options['format'] ??= $this->timeParser->getLocaleFormat() ?? 'hh:mm a';
 
-        return static::datetime($value, $options);
+        return $this->datetime($value, $options);
     }
 
     /**
@@ -200,10 +222,10 @@ abstract class Formatter
      * @param string $locale The locale.
      * @return NumberFormatter The NumberFormatter.
      */
-    protected static function getNumberFormatter(string $locale, int $type = NumberFormatter::DEFAULT_STYLE): NumberFormatter
+    protected function getNumberFormatter(string $locale, int $type = NumberFormatter::DEFAULT_STYLE): NumberFormatter
     {
-        static::$numberFormatters[$locale] ??= [];
+        $this->numberFormatters[$locale] ??= [];
 
-        return static::$numberFormatters[$locale][$type] ??= new NumberFormatter($locale, $type);
+        return $this->numberFormatters[$locale][$type] ??= new NumberFormatter($locale, $type);
     }
 }

@@ -3,17 +3,22 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Fyre\Config\Config;
+use Fyre\Container\Container;
 use Fyre\DateTime\DateTime;
+use Fyre\DB\TypeParser;
 use Fyre\Utility\Formatter;
 use PHPUnit\Framework\TestCase;
 
 final class FormatterTest extends TestCase
 {
+    protected Formatter $formatter;
+
     public function testCurrency(): void
     {
         $this->assertSame(
             '$123.00',
-            Formatter::currency(123)
+            $this->formatter->currency(123)
         );
     }
 
@@ -21,7 +26,7 @@ final class FormatterTest extends TestCase
     {
         $this->assertSame(
             '$123.46',
-            Formatter::currency(123.456)
+            $this->formatter->currency(123.456)
         );
     }
 
@@ -29,7 +34,7 @@ final class FormatterTest extends TestCase
     {
         $this->assertSame(
             '£123.00',
-            Formatter::currency(123, [
+            $this->formatter->currency(123, [
                 'locale' => 'en-GB',
                 'currency' => 'gbp',
             ])
@@ -40,7 +45,7 @@ final class FormatterTest extends TestCase
     {
         $this->assertSame(
             '$123.46',
-            Formatter::currency('123.456')
+            $this->formatter->currency('123.456')
         );
     }
 
@@ -50,7 +55,7 @@ final class FormatterTest extends TestCase
 
         $this->assertSame(
             '01/01/2022',
-            Formatter::date($date)
+            $this->formatter->date($date)
         );
     }
 
@@ -60,7 +65,7 @@ final class FormatterTest extends TestCase
 
         $this->assertSame(
             '٢٠٢٢-٠١-٠١',
-            Formatter::date($date, [
+            $this->formatter->date($date, [
                 'locale' => 'ar-AR',
                 'format' => 'yyyy-MM-dd',
             ])
@@ -73,7 +78,7 @@ final class FormatterTest extends TestCase
 
         $this->assertSame(
             '01/01/2022 11:59 AM',
-            Formatter::datetime($date)
+            $this->formatter->datetime($date)
         );
     }
 
@@ -83,7 +88,7 @@ final class FormatterTest extends TestCase
 
         $this->assertSame(
             '٢٠٢٢-٠١-٠١ ٠٦:٥٩:٥٩',
-            Formatter::datetime($date, [
+            $this->formatter->datetime($date, [
                 'locale' => 'ar-AR',
                 'timeZone' => 'America/New_York',
                 'format' => 'yyyy-MM-dd HH:mm:ss',
@@ -95,7 +100,7 @@ final class FormatterTest extends TestCase
     {
         $this->assertSame(
             '1,234',
-            Formatter::number(1234)
+            $this->formatter->number(1234)
         );
     }
 
@@ -103,7 +108,7 @@ final class FormatterTest extends TestCase
     {
         $this->assertSame(
             '1,234.567',
-            Formatter::number(1234.567)
+            $this->formatter->number(1234.567)
         );
     }
 
@@ -111,7 +116,7 @@ final class FormatterTest extends TestCase
     {
         $this->assertSame(
             '1,234.567',
-            Formatter::number('1234.567')
+            $this->formatter->number('1234.567')
         );
     }
 
@@ -119,7 +124,7 @@ final class FormatterTest extends TestCase
     {
         $this->assertSame(
             '100%',
-            Formatter::percent(1)
+            $this->formatter->percent(1)
         );
     }
 
@@ -127,7 +132,7 @@ final class FormatterTest extends TestCase
     {
         $this->assertSame(
             '12%',
-            Formatter::percent(0.123)
+            $this->formatter->percent(0.123)
         );
     }
 
@@ -135,46 +140,7 @@ final class FormatterTest extends TestCase
     {
         $this->assertSame(
             '12%',
-            Formatter::percent('0.123')
-        );
-    }
-
-    public function testSetDefaultCurrencyCallback(): void
-    {
-        Formatter::setDefaultCurrency(fn(): string => 'gbp');
-
-        $this->assertSame(
-            '£123.00',
-            Formatter::currency(123, [
-                'locale' => 'en-GB',
-            ])
-        );
-    }
-
-    public function testSetDefaultLocaleCallback(): void
-    {
-        Formatter::setDefaultLocale(fn(): string => 'en-GB');
-
-        $this->assertSame(
-            '£123.00',
-            Formatter::currency(123, [
-                'currency' => 'gbp',
-            ])
-        );
-    }
-
-    public function testSetDefaultTimeZoneCallback(): void
-    {
-        Formatter::setDefaultTimeZone(fn(): string => 'America/New_York');
-
-        $date = new DateTime('2022-01-01 11:59:59');
-
-        $this->assertSame(
-            '٢٠٢٢-٠١-٠١ ٠٦:٥٩:٥٩',
-            Formatter::datetime($date, [
-                'locale' => 'ar-AR',
-                'format' => 'yyyy-MM-dd HH:mm:ss',
-            ])
+            $this->formatter->percent('0.123')
         );
     }
 
@@ -184,7 +150,7 @@ final class FormatterTest extends TestCase
 
         $this->assertSame(
             '11:59 AM',
-            Formatter::time($date)
+            $this->formatter->time($date)
         );
     }
 
@@ -194,7 +160,7 @@ final class FormatterTest extends TestCase
 
         $this->assertSame(
             '٠٦:٥٩:٥٩',
-            Formatter::time($date, [
+            $this->formatter->time($date, [
                 'locale' => 'ar-AR',
                 'timeZone' => 'America/New_York',
                 'format' => 'HH:mm:ss',
@@ -204,8 +170,15 @@ final class FormatterTest extends TestCase
 
     protected function setUp(): void
     {
-        Formatter::setDefaultCurrency('usd');
-        Formatter::setDefaultLocale('en-US');
-        Formatter::setDefaultTimeZone('UTC');
+        $container = new Container();
+        $container->singleton(TypeParser::class);
+        $container->singleton(Config::class);
+        $container->use(Config::class)->set('App', [
+            'locale' => 'en-US',
+            'timeZone' => 'UTC',
+            'currency' => 'USD',
+        ]);
+
+        $this->formatter = $container->build(Formatter::class);
     }
 }

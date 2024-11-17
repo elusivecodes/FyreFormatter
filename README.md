@@ -5,6 +5,7 @@
 
 ## Table Of Contents
 - [Installation](#installation)
+- [Basic Usage](#basic-usage)
 - [Methods](#methods)
 
 
@@ -24,6 +25,41 @@ use Fyre\Utility\Formatter;
 ```
 
 
+## Basic Usage
+
+- `$typeParser` is a [*TypeParser*](https://github.com/elusivecodes/FyreTypeParser).
+- `$config` is a [*Config*](https://github.com/elusivecodes/FyreConfig).
+
+```php
+$formatter = new Formatter($typeParser, $config);
+```
+
+Default configuration options will be resolved from the "*App*" key in the [*Config*](https://github.com/elusivecodes/FyreConfig).
+
+- `$options` is an array containing configuration options.
+    - `locale` is a string representing the default locale, and will default to the system default.
+    - `timeZone` is a string representing the default time zone, and will default to the system default.
+    - `currency` is a string representing the default currency, and will default to "*USD*".
+
+```php
+$container->use(Config::class)->set('App', $options);
+```
+
+**Autoloading**
+
+It is recommended to bind the *Formatter* to the [*Container*](https://github.com/elusivecodes/FyreContainer) as a singleton.
+
+```php
+$container->singleton(Formatter::class);
+```
+
+Any dependencies will be injected automatically when loading from the [*Container*](https://github.com/elusivecodes/FyreContainer).
+
+```php
+$formatter = $container->use(Formatter::class);
+```
+
+
 ## Methods
 
 **Currency**
@@ -36,7 +72,7 @@ Format a value as a currency string.
     - `$currency` is a string representing the currency, and will default to the *Formatter* default currency.
 
 ```php
-$currency = Formatter::currency($value, $options);
+$currency = $formatter->currency($value, $options);
 ```
 
 **Date**
@@ -50,7 +86,7 @@ Format a [*DateTime*](https://github.com/elusivecodes/FyreDateTime) as a date st
     - `$format` is a string representing the format, and will default to the [*TypeParser*](https://github.com/elusivecodes/FyreTypeParser) default date user format.
 
 ```php
-$date = Formatter::date($value, $options);
+$date = $formatter->date($value, $options);
 ```
 
 **Date/Time**
@@ -64,7 +100,7 @@ Format a [*DateTime*](https://github.com/elusivecodes/FyreDateTime) as a date/ti
     - `$format` is a string representing the format, and will default to the [*TypeParser*](https://github.com/elusivecodes/FyreTypeParser) default datetime user format.
 
 ```php
-$datetime = Formatter::datetime($value, $options);
+$datetime = $formatter->datetime($value, $options);
 ```
 
 **Get Default Currency**
@@ -72,7 +108,7 @@ $datetime = Formatter::datetime($value, $options);
 Get the default currency.
 
 ```php
-$defaultCurrency = Formatter::getDefaultCurrency();
+$defaultCurrency = $formatter->getDefaultCurrency();
 ```
 
 **Get Default Locale**
@@ -80,7 +116,7 @@ $defaultCurrency = Formatter::getDefaultCurrency();
 Get the default locale.
 
 ```php
-$defaultLocale = Formatter::getDefaultLocale();
+$defaultLocale = $formatter->getDefaultLocale();
 ```
 
 **Get Default Time Zone**
@@ -88,7 +124,7 @@ $defaultLocale = Formatter::getDefaultLocale();
 Get the default time zone.
 
 ```php
-$defaultTimeZone = Formatter::getDefaultTimeZone();
+$defaultTimeZone = $formatter->getDefaultTimeZone();
 ```
 
 **Number**
@@ -100,7 +136,7 @@ Format a value as a number string.
     - `$locale` is a string representing the locale, and will default to the *Formatter* default locale.
 
 ```php
-$number = Formatter::number($value, $options);
+$number = $formatter->number($value, $options);
 ```
 
 **Percent**
@@ -112,7 +148,7 @@ Format a value as a percent string.
     - `$locale` is a string representing the locale, and will default to the *Formatter* default locale.
 
 ```php
-$percent = Formatter::percent($value, $options);
+$percent = $formatter->percent($value, $options);
 ```
 
 **Set Default Currency**
@@ -122,7 +158,7 @@ Set the default currency.
 - `$currency` is a string representing the currency code, or a *Closure* that returns the currency code.
 
 ```php
-Formatter::setDefaultCurrency($currency);
+$formatter->setDefaultCurrency($currency);
 ```
 
 **Set Default Locale**
@@ -132,7 +168,7 @@ Set the default locale.
 - `$locale` is a string representing the locale, or a *Closure* that returns the locale.
 
 ```php
-Formatter::setDefaultLocale($locale);
+$formatter->setDefaultLocale($locale);
 ```
 
 **Set Default Time Zone**
@@ -142,7 +178,7 @@ Set the default time zone.
 - `$timeZone` is a string representing the time zone, or a *Closure* that returns the time zone.
 
 ```php
-Formatter::setDefaultTimeZone($timeZone);
+$formatter->setDefaultTimeZone($timeZone);
 ```
 
 **Time**
@@ -156,5 +192,5 @@ Format a [*DateTime*](https://github.com/elusivecodes/FyreDateTime) as a time st
     - `$format` is a string representing the format, and will default to the [*TypeParser*](https://github.com/elusivecodes/FyreTypeParser) default time user format.
 
 ```php
-$time = Formatter::time($value, $options);
+$time = $formatter->time($value, $options);
 ```
