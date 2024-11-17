@@ -155,7 +155,7 @@ $percent = $formatter->percent($value, $options);
 
 Set the default currency.
 
-- `$currency` is a string representing the currency code, or a *Closure* that returns the currency code.
+- `$currency` is a string representing the currency code.
 
 ```php
 $formatter->setDefaultCurrency($currency);
@@ -165,7 +165,7 @@ $formatter->setDefaultCurrency($currency);
 
 Set the default locale.
 
-- `$locale` is a string representing the locale, or a *Closure* that returns the locale.
+- `$locale` is a string representing the locale.
 
 ```php
 $formatter->setDefaultLocale($locale);
@@ -175,7 +175,7 @@ $formatter->setDefaultLocale($locale);
 
 Set the default time zone.
 
-- `$timeZone` is a string representing the time zone, or a *Closure* that returns the time zone.
+- `$timeZone` is a string representing the time zone.
 
 ```php
 $formatter->setDefaultTimeZone($timeZone);
