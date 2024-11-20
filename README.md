@@ -37,9 +37,9 @@ $formatter = new Formatter($typeParser, $config);
 Default configuration options will be resolved from the "*App*" key in the [*Config*](https://github.com/elusivecodes/FyreConfig).
 
 - `$options` is an array containing configuration options.
-    - `locale` is a string representing the default locale, and will default to the system default.
-    - `timeZone` is a string representing the default time zone, and will default to the system default.
-    - `currency` is a string representing the default currency, and will default to "*USD*".
+    - `defaultLocale` is a string representing the default locale, and will default to the system default.
+    - `defaultTimeZone` is a string representing the default time zone, and will default to the system default.
+    - `defaultCurrency` is a string representing the default currency, and will default to "*USD*".
 
 ```php
 $container->use(Config::class)->set('App', $options);

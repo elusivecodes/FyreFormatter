@@ -44,9 +44,9 @@ class Formatter
         $this->dateTimeParser = $typeParser->use('datetime');
         $this->timeParser = $typeParser->use('time');
 
-        $this->defaultCurrency = $config->get('App.currency', 'USD');
-        $this->defaultLocale = $config->get('App.locale');
-        $this->defaultTimeZone = $config->get('App.timeZone');
+        $this->defaultCurrency = $config->get('App.defaultCurrency', 'USD');
+        $this->defaultLocale = $config->get('App.defaultLocale');
+        $this->defaultTimeZone = $config->get('App.defaultTimeZone');
     }
 
     /**

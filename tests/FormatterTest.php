@@ -174,9 +174,9 @@ final class FormatterTest extends TestCase
         $container->singleton(TypeParser::class);
         $container->singleton(Config::class);
         $container->use(Config::class)->set('App', [
-            'locale' => 'en-US',
-            'timeZone' => 'UTC',
-            'currency' => 'USD',
+            'defaultLocale' => 'en-US',
+            'defaultTimeZone' => 'UTC',
+            'defaultCurrency' => 'USD',
         ]);
 
         $this->formatter = $container->build(Formatter::class);
