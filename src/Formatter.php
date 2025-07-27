@@ -9,6 +9,7 @@ use Fyre\DB\TypeParser;
 use Fyre\DB\Types\DateTimeType;
 use Fyre\DB\Types\DateType;
 use Fyre\DB\Types\TimeType;
+use Fyre\Utility\Traits\MacroTrait;
 use NumberFormatter;
 
 use function locale_get_default;
@@ -18,6 +19,8 @@ use function locale_get_default;
  */
 class Formatter
 {
+    use MacroTrait;
+
     protected DateType $dateParser;
 
     protected DateTimeType $dateTimeParser;

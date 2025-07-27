@@ -8,7 +8,10 @@ use Fyre\Container\Container;
 use Fyre\DateTime\DateTime;
 use Fyre\DB\TypeParser;
 use Fyre\Utility\Formatter;
+use Fyre\Utility\Traits\MacroTrait;
 use PHPUnit\Framework\TestCase;
+
+use function class_uses;
 
 final class FormatterTest extends TestCase
 {
@@ -93,6 +96,14 @@ final class FormatterTest extends TestCase
                 'timeZone' => 'America/New_York',
                 'format' => 'yyyy-MM-dd HH:mm:ss',
             ])
+        );
+    }
+
+    public function testMacroable(): void
+    {
+        $this->assertContains(
+            MacroTrait::class,
+            class_uses(Formatter::class)
         );
     }
 
