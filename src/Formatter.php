@@ -96,11 +96,11 @@ class Formatter
         $options['format'] ??= $this->dateTimeParser->getLocaleFormat() ?? 'dd/MM/yyyy hh:mm a';
 
         if ($value->getLocale() !== $options['locale']) {
-            $value = $value->setLocale($options['locale']);
+            $value = $value->withLocale($options['locale']);
         }
 
         if ($value->getTimeZone() !== $options['timeZone']) {
-            $value = $value->setTimeZone($options['timeZone']);
+            $value = $value->withTimeZone($options['timeZone']);
         }
 
         return $value->format($options['format']);

@@ -20,10 +20,10 @@
         }
     },
     "require": {
-        "fyre/config": "^4.1",
-        "fyre/datetime": "^3.0",
-        "fyre/macro": "^1.0",
-        "fyre/typeparser": "^5.0"
+        "fyre/config": "^5.0",
+        "fyre/datetime": "^4.0",
+        "fyre/macro": "^2.0",
+        "fyre/typeparser": "^6.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.59",
