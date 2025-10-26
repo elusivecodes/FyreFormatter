@@ -8,17 +8,20 @@
     "packages": [
         {
             "name": "fyre/array",
-            "version": "v2.1.2",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreArray.git",
-                "reference": "703919cb7f9128b4f3a4edcd7ae4e6cad16a5719"
+                "reference": "693df5c7919a852aebd5e6c84dec58cba6217595"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreArray/zipball/703919cb7f9128b4f3a4edcd7ae4e6cad16a5719",
-                "reference": "703919cb7f9128b4f3a4edcd7ae4e6cad16a5719",
+                "url": "https://api.github.com/repos/elusivecodes/FyreArray/zipball/693df5c7919a852aebd5e6c84dec58cba6217595",
+                "reference": "693df5c7919a852aebd5e6c84dec58cba6217595",
                 "shasum": ""
+            },
+            "require": {
+                "fyre/macro": "^2.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.59",
@@ -44,28 +47,28 @@
             "description": "An array utility library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreArray/issues",
-                "source": "https://github.com/elusivecodes/FyreArray/tree/v2.1.2"
+                "source": "https://github.com/elusivecodes/FyreArray/tree/v3.0.2"
             },
-            "time": "2025-07-27T10:59:54+00:00"
+            "time": "2025-10-22T11:51:10+00:00"
         },
         {
             "name": "fyre/config",
-            "version": "v5.0.1",
+            "version": "v5.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyreConfig.git",
-                "reference": "45f4c1c43e9979be617a739459332720dee82851"
+                "reference": "1fd6e36074c700ca978d4eeb14158133ee5e0324"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyreConfig/zipball/45f4c1c43e9979be617a739459332720dee82851",
-                "reference": "45f4c1c43e9979be617a739459332720dee82851",
+                "url": "https://api.github.com/repos/elusivecodes/FyreConfig/zipball/1fd6e36074c700ca978d4eeb14158133ee5e0324",
+                "reference": "1fd6e36074c700ca978d4eeb14158133ee5e0324",
                 "shasum": ""
             },
             "require": {
-                "fyre/array": "^2.0",
+                "fyre/array": "^3.0",
                 "fyre/macro": "^2.0",
-                "fyre/path": "^2.0"
+                "fyre/path": "^3.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.59",
@@ -91,9 +94,9 @@
             "description": "A configuration library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyreConfig/issues",
-                "source": "https://github.com/elusivecodes/FyreConfig/tree/v5.0.1"
+                "source": "https://github.com/elusivecodes/FyreConfig/tree/v5.0.3"
             },
-            "time": "2025-10-22T12:08:56+00:00"
+            "time": "2025-10-26T03:26:53+00:00"
         },
         {
             "name": "fyre/container",
@@ -229,17 +232,20 @@
         },
         {
             "name": "fyre/path",
-            "version": "v2.0.15",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elusivecodes/FyrePath.git",
-                "reference": "09055cf0e8e836fed8c4a5b84ec0d0a083cd8c86"
+                "reference": "d252569dd479a29ab8168e2dd6fe26492204423a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elusivecodes/FyrePath/zipball/09055cf0e8e836fed8c4a5b84ec0d0a083cd8c86",
-                "reference": "09055cf0e8e836fed8c4a5b84ec0d0a083cd8c86",
+                "url": "https://api.github.com/repos/elusivecodes/FyrePath/zipball/d252569dd479a29ab8168e2dd6fe26492204423a",
+                "reference": "d252569dd479a29ab8168e2dd6fe26492204423a",
                 "shasum": ""
+            },
+            "require": {
+                "fyre/macro": "^2.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.59",
@@ -265,9 +271,9 @@
             "description": "A path utility library.",
             "support": {
                 "issues": "https://github.com/elusivecodes/FyrePath/issues",
-                "source": "https://github.com/elusivecodes/FyrePath/tree/v2.0.15"
+                "source": "https://github.com/elusivecodes/FyrePath/tree/v3.0.1"
             },
-            "time": "2025-07-27T11:05:13+00:00"
+            "time": "2025-10-22T11:57:47+00:00"
         },
         {
             "name": "fyre/typeparser",
